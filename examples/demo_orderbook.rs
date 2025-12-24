@@ -58,7 +58,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
                 let best_ask = *asks.keys().next().unwrap();
                 let best_bid = *bids.keys().next_back().unwrap();
-                let spread = best_ask - best_bid;
+                let spread = best_ask.saturating_sub(best_bid);
                 let mid_price = (best_ask + best_bid) as f64 / 2.0;
 
                 println!(
