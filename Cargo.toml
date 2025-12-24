@@ -1,0 +1,76 @@
+[package]
+name = "kraken-sdk"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.70.0"
+authors = ["Mohammed Mahgoub mohammed.20m at gmail dot com"]
+license = "MIT"
+description = "Minimal, async, type-safe Rust SDK for Kraken's real-time market data"
+homepage = "https://github.com/moe-a-m/kraken-websocket-sdk"
+repository = "https://github.com/moe-a-m/kraken-websocket-sdk"
+documentation = "https://docs.rs/kraken-websocket-sdk"
+readme = "README.md"
+keywords = ["kraken", "cryptocurrency", "trading", "websocket", "async"]
+categories = ["api-bindings", "finance", "network-programming"]
+exclude = ["target/", ".git/"]
+
+[[example]]
+name = "getting_started"
+path = "examples/getting_started.rs"
+
+[[example]]
+name = "orders"
+path = "examples/orders.rs"
+
+[[example]]
+name = "batch"
+path = "examples/batch.rs"
+
+[[example]]
+name = "stream"
+path = "examples/stream.rs"
+
+[[example]]
+name = "advanced"
+path = "examples/advanced.rs"
+
+[[example]]
+name = "config"
+path = "examples/config.rs"
+
+[[example]]
+name = "metrics"
+path = "examples/metrics.rs"
+
+[[example]]
+name = "retry"
+path = "examples/retry.rs"
+
+[dependencies]
+tokio-stream = "0.1"
+futures-util = { version = "0.3", features = ["sink"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+url = "2.5"
+hmac = "0.12"
+sha2 = "0.10"
+base64 = "0.21"
+simd-json = { version = "0.13", optional = true }
+instant = { version = "0.1", features = ["wasm-bindgen"] }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+tokio = { version = "1.37", features = ["full", "time"] }
+tokio-tungstenite = { version = "0.21", features = ["native-tls"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2"
+web-sys = { version = "0.3", features = ["WebSocket", "MessageEvent", "ErrorEvent", "CloseEvent"] }
+js-sys = "0.3"
+tokio = { version = "1.37", default-features = false, features = ["macros", "rt", "time"] }
+getrandom = { version = "0.2", features = ["js"] }
+
+[features]
+default = []
+zero-copy = ["simd-json"]
+wasm = ["getrandom/js"]
